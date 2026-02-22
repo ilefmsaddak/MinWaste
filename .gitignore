@@ -1,0 +1,46 @@
+node_modules/
+.env
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# Environment files
+.env.local
+.env.production
+.env.staging
+
+# Logs
+logs/
+
+# Coverage
+coverage/
+*.lcov
+
+# Build artifacts
+dist/
+build/
+
+# Miscellaneous
+*.bak
+*.backup
+
+
+**/node_modules/
+**/dist/
+**/.dart_tool/
+**/build/
+**/.idea/
+.env

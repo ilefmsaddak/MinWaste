@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafb;
+  color: #111827;
+  
+  @media (min-width: 1024px) {
+    zoom: 0.85;
+    min-width: 1280px;
+  }
+}
+
+html, body {
+  height: 100%;
+}

@@ -1,0 +1,34 @@
+<div class="leaderboard-container">
+  <div class="leaderboard-header">
+    <h3 class="leaderboard-title">Leaderboard</h3>
+  </div>
+  
+  <div class="leaderboard-list">
+    @for (user of users(); track user.rank) {
+      <div class="leaderboard-item" [class.current-user]="user.isCurrentUser">
+        @if (user.isCurrentUser) {
+          <div class="current-user-highlight">
+            <div class="pulse-ring"></div>
+            <div class="pulse-ring-2"></div>
+            <div class="pulse-ring-3"></div>
+          </div>
+        }
+        
+        <div class="rank-badge" [class.rank-current]="user.isCurrentUser">
+          {{ user.rank }}
+        </div>
+        
+        <div class="user-avatar">
+          <img [src]="user.avatar" [alt]="user.name">
+        </div>
+        
+        <div class="user-info">
+          <div class="user-name">{{ user.name }}</div>
+          <div class="user-level">Level {{ user.level }}</div>
+        </div>
+        
+        <div class="user-score">{{ user.score | number }}</div>
+      </div>
+    }
+  </div>
+</div>

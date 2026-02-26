@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Annonce {
+  id                Int       @id @default(autoincrement())
+  ownerId           Int       @map("owner_id")
+  owner             User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  title             String    @db.VarChar(255)
+  description       String?   @db.Text
+  category          String?   @db.VarChar(100)
+  photos            String[]  @db.Text
+  location          Json?     @db.JsonB
+  
+  status            AnnonceStatus @default(pending)
+  suggestedCategory String[]      @map("suggested_category")
+  fraudScore        Decimal        @default(0) @db.Decimal(5, 2) @map("fraud_score")
+  
+  createdAt         DateTime  @default(now()) @map("created_at")
+  expiresAt         DateTime? @map("expires_at")
+  
+  quantity          Int?      @default(1)
+  priceType         PriceType @map("price_type")
+  priceAmount       Decimal?  @db.Decimal(10, 2) @map("price_amount")
+
+  @@map("annonce")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  email             String    @unique @db.VarChar(255)
+  displayName       String    @map("display_name") @db.VarChar(150)
+  phone             String?   @db.VarChar(30)
+  
+  role              UserRole  @default(user)
+  points            Int?      @default(0)
+  badges            String[]  @db.Text
+  fraudScore        Decimal   @default(0) @db.Decimal(5, 2) @map("fraud_score")
+  
+  createdAt         DateTime  @default(now()) @map("created_at")
+  
+  annonces          Annonce[]
+
+  @@map("users")
+}
+
+enum AnnonceStatus {
+  expired
+  pending
+  unavailable
+
+  @@map("annonce_status")
+}
+
+enum PriceType {
+  free
+  unit
+  bulk
+
+  @@map("price_type")
+}
+
+enum UserRole {
+  user
+  admin
+  moderator
+
+  @@map("user_role")
+}
+

@@ -1,0 +1,61 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Location {
+  lat: Float!
+  lng: Float!
+  addr: String!
+}
+
+type Owner {
+  id: Int!
+  displayName: String!
+  email: String
+  points: Int
+  badges: [String!]
+}
+
+type Annonce {
+  id: Int!
+  ownerId: Int!
+  title: String!
+  description: String
+  category: String
+  photos: [String!]!
+  location: Location
+  status: AnnonceStatus!
+  suggestedCategory: [String!]
+  fraudScore: Float
+  createdAt: DateTime!
+  expiresAt: DateTime
+  quantity: Int
+  priceType: PriceType!
+  priceAmount: Float
+  owner: Owner
+}
+
+enum AnnonceStatus {
+  expired
+  pending
+  unavailable
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum PriceType {
+  free
+  unit
+  bulk
+}
+
+type Query {
+  annonces: [Annonce!]!
+  annonce(id: Int!): Annonce
+  annoncesByCategory(category: String!): [Annonce!]!
+  annoncesByStatus(status: String!): [Annonce!]!
+  annoncesByOwnerId(ownerId: Int!): [Annonce!]!
+}

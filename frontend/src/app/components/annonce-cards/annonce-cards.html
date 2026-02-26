@@ -1,58 +1,63 @@
 <div class="cards-container" [id]="sectionId">
   <h2 class="section-title">{{ sectionTitle }}</h2>
-  <div class="cards-scroll">
-    @for (annonce of annonces(); track annonce.id) {
-      <div class="card">
-        <!-- Image -->
-        <div class="card-image">
-          <img [src]="annonce.photo" [alt]="annonce.title">
-          <span class="status-badge" [ngClass]="getStatusBadgeClass(annonce.status)">
-            {{ annonce.status }}
-          </span>
-          <div class="quantity-badge">{{ annonce.quantity }}</div>
-        </div>
-
-        <!-- Card Content -->
-        <div class="card-content">
-          <div class="card-category">{{ annonce.category }}</div>
-          
-          <h3 class="card-title">{{ annonce.title }}</h3>
-          
-
-         
-
-          <!-- Location -->
-          <div class="card-location">
-            <span class="location-icon">📍</span>
-            <span class="location-text">{{ annonce.location.addr }}</span>
+  
+  @if (isLoading()) {
+    <div class="loading">Loading announcements...</div>
+  } @else if (error()) {
+    <div class="error">{{ error() }}</div>
+  } @else {
+    <div class="cards-scroll">
+      @for (annonce of annonces(); track annonce.id) {
+        <div class="card">
+          <!-- Image -->
+          <div class="card-image">
+            <img [src]="getPhotoUrl(annonce.photos)" [alt]="annonce.title">
+            <span class="status-badge" [ngClass]="'status-' + annonce.status.toLowerCase()">
+              {{ getStatusLabel(annonce.status) }}
+            </span>
           </div>
 
-          <!-- Expiry Date Warning -->
-          @if (annonce.expiryDate) {
-            <div class="expiry-warning" [ngClass]="{'expiring-soon': isExpiringSoon(annonce.expiryDate), 'expired': isExpired(annonce.expiryDate)}">
-              ⏰ {{ getExpiryLabel(annonce.expiryDate) }}
-            </div>
-          }
+          <!-- Card Content -->
+          <div class="card-content">
+            <div class="card-category">{{ annonce.category }}</div>
+            
+            <h3 class="card-title">{{ annonce.title }}</h3>
 
-          <!-- Footer with Price and Time -->
-          <div class="card-footer">
-            <div class="price-section">
-              @if (annonce.priceType === 'free') {
-                <span class="badge-free">Free</span>
-              } @else {
-                <div class="price-info">
-                  <span class="price-amount">{{ annonce.priceAmount | number: '1.2-2' }} DT</span>
-                  <span class="price-type">{{ getPriceLabel(annonce.priceType) }}</span>
-                </div>
-              }
+            <!-- Location -->
+            @if (annonce.location) {
+              <div class="card-location">
+                <span class="location-icon">📍</span>
+                <span class="location-text">{{ annonce.location.addr }}</span>
+              </div>
+            }
+
+            <!-- Expiry Date Warning -->
+            @if (annonce.expiresAt) {
+              <div class="expiry-warning" [ngClass]="{'expiring-soon': isExpiringSoon(annonce.expiresAt), 'expired': isExpired(annonce.expiresAt)}">
+                ⏰ {{ getExpiryLabel(annonce.expiresAt) }}
+              </div>
+            }
+
+            <!-- Footer with Price and Time -->
+            <div class="card-footer">
+              <div class="price-section">
+                @if (annonce.priceType === 'free') {
+                  <span class="badge-free">Free</span>
+                } @else {
+                  <div class="price-info">
+                    <span class="price-amount">{{ annonce.priceAmount | number: '1.2-2' }} DT</span>
+                    <span class="price-type">{{ getPriceLabel(annonce.priceType) }}</span>
+                  </div>
+                }
+              </div>
+              <span class="time-ago">{{ getTimeAgo(annonce.createdAt) }}</span>
             </div>
-            <span class="time-ago">{{ getTimeAgo(annonce.createdAt) }}</span>
+
+            <!-- Action Button -->
+            <button class="view-btn">View More</button>
           </div>
-
-          <!-- Action Button -->
-          <button class="view-btn">View More</button>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  }
 </div>

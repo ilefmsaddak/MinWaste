@@ -8,7 +8,7 @@
   } @else {
     <div class="cards-scroll">
       @for (annonce of annonces(); track annonce.id) {
-        <div class="card">
+        <div class="card" (click)="openAnnonce(annonce.id)">
           <!-- Image -->
           <div class="card-image">
             <img [src]="getPhotoUrl(annonce.photos)" [alt]="annonce.title">
@@ -54,7 +54,7 @@
             </div>
 
             <!-- Action Button -->
-            <button class="view-btn">View More</button>
+            <button class="view-btn" (click)="$event.stopPropagation(); openAnnonce(annonce.id)">View More</button>
           </div>
         </div>
       }

@@ -13,6 +13,7 @@ export class NavBar {
 
   navItems = [
     { label: 'Home', route: '/', icon: 'home' },
+    { label: 'Buy', route: '/buy', icon: 'buy' },
     { label: 'Map', route: '/map', icon: 'map' },
     { label: 'Sell', route: '/sell', icon: 'add' },
     { label: 'Messages', route: '/messages', icon: 'message' }
@@ -25,6 +26,7 @@ export class NavBar {
   getIcon(iconName: string): string {
     const icons: { [key: string]: string } = {
       home: '🏠',
+      buy: '🛒',
       map: '🗺️',
       add: '➕',
       message: '💬',

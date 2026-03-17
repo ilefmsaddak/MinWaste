@@ -1,5 +1,6 @@
 import { Component, Input, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AnnonceDataService, AnnonceData } from '../../services/annonce-data.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class AnnonceCards implements OnInit {
   isLoading = signal(false);
   error = signal<string | null>(null);
 
-  constructor(private annonceDataService: AnnonceDataService) {}
+  constructor(
+    private annonceDataService: AnnonceDataService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.loadAnnonces();
@@ -110,5 +114,9 @@ export class AnnonceCards implements OnInit {
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     return `${diffDays}d ago`;
+  }
+
+  openAnnonce(id: number): void {
+    this.router.navigate(['/annonce', id]);
   }
 }
